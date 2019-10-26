@@ -1,4 +1,6 @@
-# database name news
+# News
+
+database name news
 
 username natolilemma1@gmail.com
 password 123
