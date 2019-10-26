@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <title>Categories</title>
+
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <link href="css/admin.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+<div id="wrapper">
+
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-newspaper"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">News Central Admin Page</div>
+        </a>
+
+        <hr class="sidebar-divider my-0">
+
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+
+        <li class="nav-item active">
+            <a class="nav-link" href="categories.html">
+                <i class="fas fa-fw fa-hashtag"></i>
+                <span>Categories</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="posts.html">
+                <i class="fas fa-fw fa-bars"></i>
+                <span>Posts</span></a>
+        </li>
+
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <ul class="navbar-nav ml-auto">
+
+
+                    <li class="nav-item mx-1">
+                        <a class="btn btn-primary" href="#" onclick="getParents()" data-toggle="modal" data-target="#newPostModal">Add New Category</a>
+                    </li>
+
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <li class="nav-item mx-1">
+                        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <div class="container-fluid">
+
+                <h1 class="h3 mb-4 text-gray-800">Categories</h1>
+                <p class="mb-4"> You can add new parent or child news categories from this page.</p>
+
+                <table id="category-table" class="display" style="width:100%;">
+                    <thead class=".thead-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Category Name</th>
+                        <th>Parent</th>
+                        <th>Actions</th>
+
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+
+        </div>
+
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Central News 2019</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+
+<div class="modal fade" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newPostModalLabel">Add new Category</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="parent">Level</label>
+                        <select class="form-control" id="parent">
+                            <option>Parent</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category-name" class="col-form-label">Category Name:</label>
+                        <input type="text" class="form-control" id="category-name">
+                    </div>
+                    <div class="form-group">
+                        <ul class="errors">
+
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" onclick="addCategory()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPostModalLabel">Edit Category</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="parentEdit">Level</label>
+                        <select class="form-control" id="parentEdit" name="parentEdit">
+                            <option>Parent</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category-name" class="col-form-label">Category Name:</label>
+                        <input type="text" class="form-control" id="category-name_edit">
+                    </div>
+                    <div class="form-group">
+                        <ul class="errors">
+
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="edit_id" name="edit_id" value="0">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" onclick="editCategory()" id="editButton">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" onclick="logout()" href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="js/is-logged.js"></script>
+<script src="js/admin.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="vendor/datatables/dataTables.bootstrap4.css"/>
+
+
+<script src="js/category-table.js"></script>
+
+
+</body>
+
+</html>
